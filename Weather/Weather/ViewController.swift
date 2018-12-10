@@ -10,6 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    @IBAction func cityTappedButton(_ sender: UIBarButtonItem) {
+        displayCity()
+    }
     @IBOutlet weak var weatherImageIcon: UIImageView!
     
     let url = "http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=8c031df7dbac4a3bd29b48b1aee1bb52"
@@ -41,6 +44,25 @@ class ViewController: UIViewController {
         }
         task.resume()
     }
+    
+    func displayCity() {
+        let alert = UIAlertController(title: "City", message: "Enter name city", preferredStyle: UIAlertController.Style.alert)
         
+        let cancel = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
+        
+        let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) { (action) in
+            if let textField = alert.textFields?.first {
+                print(textField.text!)
+            }
+        }
+        
+        alert.addAction(cancel)
+        alert.addAction(ok)
+        alert.addTextField { (textField) in
+            textField.placeholder = "City name"
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 }
 
