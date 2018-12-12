@@ -47,9 +47,15 @@ class ViewController: UIViewController, WeatherModelDelegate {
     func updateWeatherInfo(weatherJson: JSON) {
         
         if let temperatureResult = weatherJson["main"]["temp"].double {
+            
             let country = weatherJson["sys"]["country"].string
+            
+            let cityName = weatherJson["name"].string
+            
             let temperature = weatherModel.convertTemperature(country: country!, temperature: temperatureResult)
+            
             print(country)
+            print(cityName)
             print(temperature)
             
         } else {
