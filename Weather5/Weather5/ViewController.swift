@@ -12,6 +12,7 @@ import SwiftyJSON
 class ViewController: UIViewController, WeatherModelDelegate {
     
     var weatherModel = WeatherModel()
+    var hud = MBProgressHUD()
     
     @IBAction func cityTappedButton(_ sender: UIBarButtonItem) {
         displayCity()
@@ -32,6 +33,7 @@ class ViewController: UIViewController, WeatherModelDelegate {
         
         let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) { (action) in
             if let textField = alert.textFields?.first {
+                self.activityIndicator()
                 self.weatherModel.getWeatherFor(city: textField.text!)
             }
         }
@@ -44,7 +46,15 @@ class ViewController: UIViewController, WeatherModelDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
+    func activityIndicator() {
+        hud.label.text = "Loading..."
+        self.view.addSubview(hud)
+        hud.show(animated: true)
+    }
+    
     func updateWeatherInfo(weatherJson: JSON) {
+        
+        hud.hide(animated: true)
         
         if let temperatureResult = weatherJson["main"]["temp"].double {
             
@@ -54,6 +64,10 @@ class ViewController: UIViewController, WeatherModelDelegate {
             
             let temperature = weatherModel.convertTemperature(country: country!, temperature: temperatureResult)
             
+            let weather = weatherJson["weather"][0]
+            let icon = weatherModel.getIcon(stringIcon: weather["icon"].string!)
+            self.weatherImageIcon.image = icon
+            
             print(country)
             print(cityName)
             print(temperature)
@@ -61,6 +75,15 @@ class ViewController: UIViewController, WeatherModelDelegate {
         } else {
             print("Unable to load weather info")
         }
+    }
+    
+    func failure() {
+        let networkController = UIAlertController(title: "Error", message: "No connection!", preferredStyle: UIAlertController.Style.alert)
+        
+        let okButton = UIAlertAction(title: "OK", style: UIAlertAction.Style.default,
+                                     handler: nil)
+        networkController.addAction(okButton)
+        self.present(networkController, animated: true, completion: nil)
     }
     
 }
