@@ -12,24 +12,27 @@ import CoreLocation
 
 class ViewController: UIViewController, WeatherModelDelegate, CLLocationManagerDelegate {
     
-    @IBOutlet weak var temperatureLabel: UITextView!
-    @IBOutlet weak var cityLabel: UITextView!
-    
     let locationManager: CLLocationManager = CLLocationManager()
     
     
+    @IBOutlet weak var weatherSearchBar: UISearchBar!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var humidityLabel: UILabel!
+    @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var weatherImageIcon: UIImageView!
     var weatherModel = WeatherModel()
     var hud = MBProgressHUD()
     
-    @IBAction func cityTappedButton(_ sender: UIBarButtonItem) {
-        displayCity()
-    }
-    
-    @IBOutlet weak var weatherImageIcon: UIImageView!
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImage.image = UIImage(named: "gradient.jpg")
+        backgroundImage.contentMode = .scaleAspectFill
+        self.view.insertSubview(backgroundImage, at: 0)
+        
+        weatherSearchBar.delegate = self
         self.weatherModel.delegate = self
         
         locationManager.delegate = self
@@ -38,26 +41,6 @@ class ViewController: UIViewController, WeatherModelDelegate, CLLocationManagerD
         locationManager.requestWhenInUseAuthorization()
         
         locationManager.startUpdatingLocation()
-    }
-    
-    func displayCity() {
-        let alert = UIAlertController(title: "City", message: "Enter name city", preferredStyle: UIAlertController.Style.alert)
-        
-        let cancel = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
-        
-        let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) { (action) in
-            if let textField = alert.textFields?.first {
-                self.activityIndicator()
-                self.weatherModel.getWeatherFor(city: textField.text!)
-            }
-        }
-        
-        alert.addAction(cancel)
-        alert.addAction(ok)
-        alert.addTextField { (textField) in
-            textField.placeholder = "City name"
-        }
-        self.present(alert, animated: true, completion: nil)
     }
     
     func activityIndicator() {
@@ -75,14 +58,20 @@ class ViewController: UIViewController, WeatherModelDelegate, CLLocationManagerD
             let country = weatherJson["sys"]["country"].string
             
             let cityName = weatherJson["name"].string
+            self.cityLabel.text = "\(cityName!), \(country!)"
             
             let temperature = weatherModel.convertTemperature(country: country!, temperature: temperatureResult)
+            self.temperatureLabel.text = String(format: "%.1f", temperature)
             
             let weather = weatherJson["weather"][0]
             let icon = weatherModel.getIcon(stringIcon: weather["icon"].string!)
             self.weatherImageIcon.image = icon
-            cityLabel.text = "\(cityName!)(\(country!))"
-            temperatureLabel.text = String(format: "%.1f", temperature)
+        
+            let humidity = weatherJson["main"]["humidity"].intValue
+            self.humidityLabel.text = "humidity: \(humidity)"
+            
+            let description = weather["description"].stringValue
+            self.descriptionLabel.text = "description: \(description)"
             
         } else {
             print("Unable to load weather info")
@@ -99,7 +88,6 @@ class ViewController: UIViewController, WeatherModelDelegate, CLLocationManagerD
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(manager.location)
         
         self.activityIndicator()
         var currentLocation = locations.last as! CLLocation
@@ -110,7 +98,6 @@ class ViewController: UIViewController, WeatherModelDelegate, CLLocationManagerD
             let coords = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude)
             
             self.weatherModel.getWeatherFor(geo: coords)
-            print(coords)
         }
         
        
@@ -121,6 +108,18 @@ class ViewController: UIViewController, WeatherModelDelegate, CLLocationManagerD
         print("Can't get your location!")
     }
     
+}
+
+extension ViewController: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        view.endEditing(true)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.activityIndicator()
+        self.weatherModel.getWeatherFor(city: searchBar.text!)
+        view.endEditing(true)
+    }
 }
 
 

@@ -84,7 +84,6 @@ class WeatherModel {
         default: imageName = "none"
         }
         
-        print(imageName)
         var iconImage = UIImage(named: imageName)
         return iconImage!
     }
