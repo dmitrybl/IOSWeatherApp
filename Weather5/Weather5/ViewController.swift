@@ -68,7 +68,7 @@ class ViewController: UIViewController, WeatherModelDelegate, CLLocationManagerD
             self.weatherImageIcon.image = icon
         
             let humidity = weatherJson["main"]["humidity"].intValue
-            self.humidityLabel.text = "humidity: \(humidity)"
+            self.humidityLabel.text = "humidity: \(humidity)%"
             
             let description = weather["description"].stringValue
             self.descriptionLabel.text = "description: \(description)"

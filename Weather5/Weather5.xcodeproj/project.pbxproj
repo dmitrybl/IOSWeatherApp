@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3101B58221C6E4E700CF4ECA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3101B58121C6E4E700CF4ECA /* Assets.xcassets */; };
 		3110684621C06EFD00E9174F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3110684521C06EFD00E9174F /* AppDelegate.swift */; };
 		3110684821C06EFD00E9174F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3110684721C06EFD00E9174F /* ViewController.swift */; };
 		3110684B21C06EFD00E9174F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3110684921C06EFD00E9174F /* Main.storyboard */; };
-		3110684D21C06EFE00E9174F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3110684C21C06EFE00E9174F /* Assets.xcassets */; };
 		3110685021C06EFE00E9174F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3110684E21C06EFE00E9174F /* LaunchScreen.storyboard */; };
 		3110685821C06F4C00E9174F /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3110685721C06F4C00E9174F /* WeatherModel.swift */; };
 		3110685D21C06FD700E9174F /* Alamofire.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 3110685921C06FD700E9174F /* Alamofire.framework.dSYM */; };
@@ -42,11 +42,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3101B58121C6E4E700CF4ECA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3110684221C06EFD00E9174F /* Weather5.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather5.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3110684521C06EFD00E9174F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3110684721C06EFD00E9174F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3110684A21C06EFD00E9174F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		3110684C21C06EFE00E9174F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3110684F21C06EFE00E9174F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3110685121C06EFE00E9174F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3110685721C06F4C00E9174F /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
@@ -97,6 +97,7 @@
 		3110684421C06EFD00E9174F /* Weather5 */ = {
 			isa = PBXGroup;
 			children = (
+				3101B58121C6E4E700CF4ECA /* Assets.xcassets */,
 				3191814521C6BC4A0074ADCB /* gradient.jpg */,
 				3191813E21C1A3650074ADCB /* MBProgressHUD.h */,
 				3191813F21C1A3650074ADCB /* MBProgressHUD.m */,
@@ -107,7 +108,6 @@
 				3110684521C06EFD00E9174F /* AppDelegate.swift */,
 				3110684721C06EFD00E9174F /* ViewController.swift */,
 				3110684921C06EFD00E9174F /* Main.storyboard */,
-				3110684C21C06EFE00E9174F /* Assets.xcassets */,
 				3110684E21C06EFE00E9174F /* LaunchScreen.storyboard */,
 				3110685121C06EFE00E9174F /* Info.plist */,
 				3110685721C06F4C00E9174F /* WeatherModel.swift */,
@@ -186,9 +186,9 @@
 			files = (
 				3110685021C06EFE00E9174F /* LaunchScreen.storyboard in Resources */,
 				3110686021C06FD700E9174F /* SwiftyJSON.framework.dSYM in Resources */,
-				3110684D21C06EFE00E9174F /* Assets.xcassets in Resources */,
 				3191814621C6BC4A0074ADCB /* gradient.jpg in Resources */,
 				3110684B21C06EFD00E9174F /* Main.storyboard in Resources */,
+				3101B58221C6E4E700CF4ECA /* Assets.xcassets in Resources */,
 				3110685D21C06FD700E9174F /* Alamofire.framework.dSYM in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

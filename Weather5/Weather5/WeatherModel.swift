@@ -49,16 +49,6 @@ class WeatherModel {
         }
     }
     
-    func getTime(timeMilliseconds: Int) -> String {
-        let interval = TimeInterval(timeMilliseconds)
-        let weatherDate = Date(timeIntervalSince1970: interval)
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        
-        return dateFormatter.string(from: weatherDate)
-    }
-    
     func getIcon(stringIcon: String) -> UIImage {
         
         let imageName: String
@@ -89,9 +79,6 @@ class WeatherModel {
     }
     
     func convertTemperature(country: String, temperature: Double) -> Double {
-        if(country == "US") {
-            return ((temperature - 273.15) * 1.8 + 32)
-        }
         return (temperature - 273.15)
     }
 
