@@ -10,11 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weather5/WeatherModel.swift"
-            timestampString = "566339365.140982"
+            timestampString = "566670757.388001"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94">
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "convertTemperature(country:temperature:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

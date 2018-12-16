@@ -8,8 +8,15 @@
 
 import UIKit
 import SwiftyJSON
+import CoreLocation
 
-class ViewController: UIViewController, WeatherModelDelegate {
+class ViewController: UIViewController, WeatherModelDelegate, CLLocationManagerDelegate {
+    
+    @IBOutlet weak var temperatureLabel: UITextView!
+    @IBOutlet weak var cityLabel: UITextView!
+    
+    let locationManager: CLLocationManager = CLLocationManager()
+    
     
     var weatherModel = WeatherModel()
     var hud = MBProgressHUD()
@@ -24,6 +31,13 @@ class ViewController: UIViewController, WeatherModelDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.weatherModel.delegate = self
+        
+        locationManager.delegate = self
+        
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        
+        locationManager.startUpdatingLocation()
     }
     
     func displayCity() {
@@ -67,10 +81,8 @@ class ViewController: UIViewController, WeatherModelDelegate {
             let weather = weatherJson["weather"][0]
             let icon = weatherModel.getIcon(stringIcon: weather["icon"].string!)
             self.weatherImageIcon.image = icon
-            
-            print(country)
-            print(cityName)
-            print(temperature)
+            cityLabel.text = "\(cityName!)(\(country!))"
+            temperatureLabel.text = String(format: "%.1f", temperature)
             
         } else {
             print("Unable to load weather info")
@@ -84,6 +96,29 @@ class ViewController: UIViewController, WeatherModelDelegate {
                                      handler: nil)
         networkController.addAction(okButton)
         self.present(networkController, animated: true, completion: nil)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(manager.location)
+        
+        self.activityIndicator()
+        var currentLocation = locations.last as! CLLocation
+        
+        if(currentLocation.horizontalAccuracy > 0) {
+             locationManager.stopUpdatingLocation()
+            
+            let coords = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude)
+            
+            self.weatherModel.getWeatherFor(geo: coords)
+            print(coords)
+        }
+        
+       
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+        print("Can't get your location!")
     }
     
 }

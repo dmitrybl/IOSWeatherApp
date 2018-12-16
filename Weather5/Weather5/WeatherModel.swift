@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import UIKit
+import CoreLocation
 
 protocol WeatherModelDelegate {
     func updateWeatherInfo(weatherJson : JSON)
@@ -20,6 +21,11 @@ class WeatherModel {
     let weatherUrl = "http://api.openweathermap.org/data/2.5/weather?APPID=8c031df7dbac4a3bd29b48b1aee1bb52"
     
     var delegate: WeatherModelDelegate!
+    
+    func getWeatherFor(geo: CLLocationCoordinate2D) {
+        let params = ["lat": geo.latitude, "lon": geo.longitude]
+        setRequest(params: params)
+    }
     
     func getWeatherFor(city: String) {
         let params = ["q" : city]
@@ -85,9 +91,9 @@ class WeatherModel {
     
     func convertTemperature(country: String, temperature: Double) -> Double {
         if(country == "US") {
-            return round((temperature - 273.15) * 1.8 + 32)
+            return ((temperature - 273.15) * 1.8 + 32)
         }
-        return round(temperature - 273.15)
+        return (temperature - 273.15)
     }
 
  }
