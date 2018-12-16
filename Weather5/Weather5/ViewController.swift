@@ -11,9 +11,8 @@ import SwiftyJSON
 import CoreLocation
 
 class ViewController: UIViewController, WeatherModelDelegate, CLLocationManagerDelegate {
-    
+   
     let locationManager: CLLocationManager = CLLocationManager()
-    
     
     @IBOutlet weak var weatherSearchBar: UISearchBar!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -60,8 +59,8 @@ class ViewController: UIViewController, WeatherModelDelegate, CLLocationManagerD
             let cityName = weatherJson["name"].string
             self.cityLabel.text = "\(cityName!), \(country!)"
             
-            let temperature = weatherModel.convertTemperature(country: country!, temperature: temperatureResult)
-            self.temperatureLabel.text = String(format: "%.1f", temperature)
+            let temperature = weatherModel.convertTemperature(temperature: temperatureResult)
+            self.temperatureLabel.text = temperature
             
             let weather = weatherJson["weather"][0]
             let icon = weatherModel.getIcon(stringIcon: weather["icon"].string!)
@@ -74,12 +73,12 @@ class ViewController: UIViewController, WeatherModelDelegate, CLLocationManagerD
             self.descriptionLabel.text = "description: \(description)"
             
         } else {
-            print("Unable to load weather info")
+            showAlertDialog(title: "No such city!", message: "City not found!")
         }
     }
     
-    func failure() {
-        let networkController = UIAlertController(title: "Error", message: "No connection!", preferredStyle: UIAlertController.Style.alert)
+    func showAlertDialog(title: String, message: String) {
+        let networkController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         
         let okButton = UIAlertAction(title: "OK", style: UIAlertAction.Style.default,
                                      handler: nil)
@@ -100,7 +99,6 @@ class ViewController: UIViewController, WeatherModelDelegate, CLLocationManagerD
             self.weatherModel.getWeatherFor(geo: coords)
         }
         
-       
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -116,9 +114,11 @@ extension ViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        self.activityIndicator()
-        self.weatherModel.getWeatherFor(city: searchBar.text!)
         view.endEditing(true)
+        if(searchBar.text! != "") {
+            self.activityIndicator()
+            self.weatherModel.getWeatherFor(city: searchBar.text!)
+        }
     }
 }
 

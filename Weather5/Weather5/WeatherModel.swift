@@ -14,7 +14,7 @@ import CoreLocation
 
 protocol WeatherModelDelegate {
     func updateWeatherInfo(weatherJson : JSON)
-    func failure()
+    func showAlertDialog(title: String, message: String)
 }
 
 class WeatherModel {
@@ -36,7 +36,7 @@ class WeatherModel {
     func setRequest(params: [String : Any]?) {
         Alamofire.request(weatherUrl, method: .get, parameters: params).responseJSON { (response) in
             if response.error != nil {
-                self.delegate.failure()
+                self.delegate.showAlertDialog(title: "No connection!", message: "No Internet connection!")
             } else {
                 let json = response.result.value
                 print(json!)
@@ -78,8 +78,13 @@ class WeatherModel {
         return iconImage!
     }
     
-    func convertTemperature(country: String, temperature: Double) -> Double {
-        return (temperature - 273.15)
+    func convertTemperature(temperature: Double) -> String {
+        let temp = temperature - 273.15
+        var result = String(format: "%.1f °C", temp)
+        if(temp > 0) {
+            result = "+\(result)"
+        }
+        return result
     }
 
  }
