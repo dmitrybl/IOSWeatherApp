@@ -15,28 +15,41 @@ import CoreLocation
 protocol WeatherModelDelegate {
     func updateWeatherInfo(weatherJson : JSON)
     func showAlertDialog(title: String, message: String)
+    func hideProgress()
 }
 
 class WeatherModel {
     let weatherUrl = "http://api.openweathermap.org/data/2.5/weather?APPID=8c031df7dbac4a3bd29b48b1aee1bb52"
     
+    let forecastUrl = "http://api.openweathermap.org/data/2.5/forecast?APPID=8c031df7dbac4a3bd29b48b1aee1bb52"
+    
     var delegate: WeatherModelDelegate!
     
     func getWeatherFor(geo: CLLocationCoordinate2D) {
         let params = ["lat": geo.latitude, "lon": geo.longitude]
-        setRequest(params: params)
+        setRequest(params: params, url: weatherUrl)
     }
     
     func getWeatherFor(city: String) {
         let params = ["q" : city]
-        setRequest(params: params)
-        
+        setRequest(params: params, url: weatherUrl)
     }
     
-    func setRequest(params: [String : Any]?) {
-        Alamofire.request(weatherUrl, method: .get, parameters: params).responseJSON { (response) in
+    func getForecastFor(geo: CLLocationCoordinate2D) {
+        let params = ["lat": geo.latitude, "lon": geo.longitude]
+        setRequest(params: params, url: forecastUrl)
+    }
+    
+    func getForecastFor(city: String) {
+        let params = ["q" : city]
+        setRequest(params: params, url: forecastUrl)
+    }
+    
+    func setRequest(params: [String : Any]?, url: String) {
+        Alamofire.request(url, method: .get, parameters: params).responseJSON { (response) in
             if response.error != nil {
                 self.delegate.showAlertDialog(title: "No connection!", message: "No Internet connection!")
+                self.delegate.hideProgress()
             } else {
                 let json = response.result.value
                 print(json!)

@@ -48,9 +48,13 @@ class ViewController: UIViewController, WeatherModelDelegate, CLLocationManagerD
         hud.show(animated: true)
     }
     
+    func hideProgress() {
+        hud.hide(animated: true)
+    }
+    
     func updateWeatherInfo(weatherJson: JSON) {
         
-        hud.hide(animated: true)
+        hideProgress()
         
         if let temperatureResult = weatherJson["main"]["temp"].double {
             
@@ -100,12 +104,7 @@ class ViewController: UIViewController, WeatherModelDelegate, CLLocationManagerD
         }
         
     }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)
-        print("Can't get your location!")
-    }
-    
+
 }
 
 extension ViewController: UISearchBarDelegate {
